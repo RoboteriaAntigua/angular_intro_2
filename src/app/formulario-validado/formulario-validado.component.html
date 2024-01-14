@@ -1,0 +1,58 @@
+<div class="card" style="width: 18rem;">
+  <div class="card-body">
+
+      <form (ngSubmit)="procesar()">
+        <div class="col-auto m-1 p-1" >
+        <input [(ngModel)]="registro.email" name="email"  required #email="ngModel"   type="email" class="form-control" placeholder="example@mail.com" ></div>
+
+        <div class="col-auto m-1 p-1">
+        <input [(ngModel)]="registro.clave" name="clave" required #clave="ngModel"   type="password" class="form-control" placeholder="una clave segura"></div>
+
+        <div class="col-auto p-1 m-1">
+        <button type="submit" [disabled]="!email.valid || !clave.valid" class="btn btn-success">confirmar identidad</button></div>
+
+      </form>
+      <p class="card-text p-2 ">Este es el texto </p>
+</div>
+</div>
+<!--agrego un alert para la validacion-->
+<!-- email.pristine dice que algo ya se ha escrito en el form-->
+<div class="alert alert-danger" [hidden]="email.valid || email.pristine">  El email es obligatorio</div>
+<div class="alert alert-danger" [hidden]="clave.valid || clave.pristine"> La clave es obligatoria y debe tener al menos 8 caracteres</div>
+
+<!--Info que muestro para que se entienda-->
+<div class="container">
+<h3>El form recuperado en spa</h3>
+<p>{{registro | json}} </p><br>
+
+<h3>Estados de los input</h3>
+<p>Con  ngModel asignado a las variables de plantilla accedo a los estados de los input </p>
+<p> Con #email="ngModel" en el input</p>
+
+<p> Los errores de email son: {{email.errors | json }}</p>
+<p> Los errores de clave son: {{clave.errors | json }}</p>
+
+<p>Esta validado? email: {{email.valid | json }}</p>
+<p>Esta validado? clave: {{clave.valid |json }}</p><br>
+
+<h3>Con variable de plantilla en el form </h3>
+<div class="card" style="width: 18rem;">
+  <div class="card-body">
+
+      <form (ngSubmit)="procesar()" #formulario1="ngForm">
+        <div class="col-auto m-1 p-1" >
+        <input [(ngModel)]="registro.email" name="email" required #email="ngModel"   type="email" class="form-control" placeholder="example@mail.com" ></div>
+
+        <div class="col-auto m-1 p-1">
+        <input [(ngModel)]="registro.clave" name="clave" required #clave="ngModel"   type="password" class="form-control" placeholder="una clave segura"></div>
+
+        <div class="col-auto p-1 m-1">
+        <button type="submit" [disabled]="!formulario1.valid" class="btn btn-success">confirmar identidad</button></div>
+
+      </form>
+      <p class="card-text p-2 ">Este es el texto </p>
+</div>
+</div><br>
+
+
+</div>

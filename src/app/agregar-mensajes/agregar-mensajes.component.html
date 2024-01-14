@@ -1,0 +1,13 @@
+<p>agregar-mensajes works!</p>
+<p> Lista de mensajes injectados en el servicio: {{Mensajes_servicio.mensajes | json}}</p>
+
+<h1>Formulario con ngSubmit mas ngModel</h1>
+<form (ngSubmit)="metodo1()">
+  <input name="entrada" [(ngModel)]="entrada">
+</form>
+
+
+
+
+
+<p>{{entrada}}</p>

@@ -6,8 +6,129 @@
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Latest compiled JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
   <app-root></app-root>
 </body>
 </html>
+
+<!-- Seguimos con angular contra todo pronostico
+
+0- Input reactivo/evento [(ngModel)]
+                            Ver componente: agregar-mensajes
+                            importar el FormsModule from @angular/forms
+                            En el .ts defino un string:
+                                 entrada:string="";
+                            En el .html :
+                            <form (ngSubmit)="metodo1()">
+                              <input name="entrada" [(ngModel)]="entrada">
+                            </form>
+                            Entrada esta definida en el .ts
+
+1-  Formularios validados por plantillas
+                            ver componente validado.
+                            A los input le agregamos una variable de plantilla (es como un id) #id1="ngForm".
+                            Con ngForm y desde el .html podemos acceder a los estados de cada input:
+                            id1.valid indica si es valido (true) o si es invalido (false)
+                            id1.pristine indica si se ha escrito algo y luego se borro
+                            luego con esta logica podemos hacer aparecer un alerta y desabilitar el boton de "enviar form"
+                            <input type="submit" [disabled]="!email.valid || !clave.valid">
+
+                            tambien podemos guardar el valor del input en una variable predefinida en algun .ts
+                            En este caso se guardo en una variable llamada variable_aqui
+                            <input type="text" [(ngModel)]="variable_aqui" #variable="ngModel" name="variable" >
+
+2- Con variable de plantilla en el form
+                            Si al form le agregamos una variable de plantilla  y un evento, la validacion es total
+                            y no input por input
+                               <form (ngSubmit)="funcion()"  #formulario1="ngForm">
+
+
+3-Formularios reactivos
+                          En el app.module.ts importar FormularioReactivoComponent
+                          En el componente formulario en el .ts importar FormControl
+                          Para que un formulario sea reactivo en el .ts los campos del form
+                          deben ser instancias de la clase FormControl
+                          email = new FormControl('');
+
+4-Comunicacion entre procesos
+                              En principio las propiedades (variables y metodos) de los componentes son privadas para
+                              usar solo adentro del componente. Para ello la comunicacion entre componentes.
+                              Componente padre:   <app-children variable="tete"></app-children>
+                                                o sinó <app-children variable="{{variable}}">
+                                                o sino <app-children [variable]="variable">
+                              Componente hijo:
+                                children.component.ts 1-Importo del angular core la interfaz: Input
+                                                      2-agrego en la clase (exporto):
+                                                           @Input() variable:string='';
+                                listo podemos usar {{vartiable}} en el .html del hijo
+                                Con un formulario reactivo se la pasamos de padre a hijo facil
+
+                              Para pasar variables tipo numero:
+                                                  padre:  <app-children [variable]='variable'></app-children>
+                                                  hijo: Importo la interfaz: Input
+                                                        uso en la clase: @Input() variable:number=0;
+5_Comunicacion de hijo a padre
+                              Abortada por compleja merjor usar servicios
+
+
+6_Servicios
+                      (Comunicacion entre componentes cualquiera)
+                              1-  ng generate service servicio-simple
+                                 Se crea un archivo servicio-simple.service.ts en app/
+                                 En el servicio creo una variable y un metodo para guardar valor en ella:
+                                          msj:string="";
+                                          cargo_msj(par:string){
+                                            this.msj=par;
+                                          }
+                              2- En el componente "envia-msj.ts"
+                                          import { ServicioSimpleService} from '../servicio-simple.service';
+                                          constructor ( public msj_simple:ServicioSimpleService) {}
+                                          y creo una variable y un metodo para enviarla
+                                           variable="123456 enviado entre componentes";
+                                            metodo_enviar(){
+                                              this.msj_simple.cargo_msj(this.variable);
+                                            }
+                                        En el envia-msj.html creo un boton para llamar al meotodo
+                              3-En el componente recibe-msj
+                                            Importo el servicio y creo el constructor
+                                             constructor ( public msj_simple:ServicioSimpleService) {}
+                                            en el .html ya puedo acceder a la variable declarada en el service
+                                            <p>Mensaje recibido {{msj_simple.msj}}</p>
+
+
+ 7_Servicios con lista *ngFor
+                                 1-  ng generate service nombre
+                                 Se crea un archivo .service.ts en app/
+                                 En el servicio creo un arreglo de strings (para guardar los datos a comunicar)
+                                          mensajes: string[
+                                         //Defino un metodo para guardar en el array
+                                         add(par:string){
+                                           this.mensajes.push(par);
+                                         }
+                            2- En el componente que manda info:
+                                        En .ts importo la clase del servicio
+                                          import { NombreService } from '../nombre.service';
+                                         y creo el constructor:
+                                            constructor(public Mensajes_servicio:MensajeService) {}
+                                          listo puedo guardar mensajes en el servicio de cualquier forma,
+                                          por ejemplo un metodo:
+                                                metodo1(){
+                                                    this.Mensajes_servicio.add(this.entrada);
+                                                  }
+                            3- En el componente que recibe hago algo similar:
+                                        En .ts importo la clase del servicio y creo el constructor
+                                        constructor(public Mensajes_servicio:MensajeService) {}
+                                            y listo en el .html puedo acceder a esta lista de mensajes
+                                            <ul>
+                                              <li *ngFor="let iteracion of Mensajes_servicio.mensajes"> {{iteracion}}</li>
+                                            </ul>
+
+
+8_Crear componentes hijos
+                              Ver video
+
+-->
